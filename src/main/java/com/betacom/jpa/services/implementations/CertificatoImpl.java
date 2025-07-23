@@ -34,7 +34,7 @@ public class CertificatoImpl implements ICertificatoServices{
 
 	
 	@Override
-	public void create(CertificatoReq req) throws AcademyException {
+	public int create(CertificatoReq req) throws AcademyException {
 		log.debug("create :" + req);
 		
 		Optional<Socio> soc = socioR.findById(req.getSocioId());
@@ -46,7 +46,18 @@ public class CertificatoImpl implements ICertificatoServices{
 		cer.setTipo(req.getTipo());
 		cer.setSocio(soc.get());     // load relation
 		
-		certR.save(cer);
+		return certR.save(cer).getId();
+		
+	}
+
+	@Override
+	public void delete(CertificatoReq req) throws AcademyException {
+		log.debug("Detete :" + req);
+		Optional<Certificato> c = certR.findById(req.getId());
+		if (c.isEmpty())
+			throw new AcademyException("Certificato non trovato :" + req.getId());
+		
+		certR.delete(c.get());
 		
 	}
 
@@ -55,16 +66,23 @@ public class CertificatoImpl implements ICertificatoServices{
 	public List<SocioDTO> lisAll() {
 		List<Certificato> lC = certR.findAll();
 		return lC.stream()
-				.map(c -> new SocioDTO(c.getSocio().getId(),
-						c.getSocio().getCognome(), 
-						c.getSocio().getNome(), 
-						c.getSocio().getCodiceFiscale(), 
-						c.getSocio().getEmail(),
-						new CertificatoDTO(c.getId(), 
-								c.getTipo(), 
-								c.getDataCertificato())))
+				.map(c -> SocioDTO.builder()
+						.id(c.getSocio().getId())
+						.cognome(c.getSocio().getCognome())
+						.nome(c.getSocio().getNome())
+						.codiceFiscale(c.getSocio().getCodiceFiscale())
+						.email(c.getSocio().getEmail())
+						.certificato(CertificatoDTO.builder()
+								.id(c.getId())
+								.dataCertificato(c.getDataCertificato())
+								.tipo(c.getTipo())
+								.build()
+								)
+						.build())
 				.collect(Collectors.toList());
 	}
+
+
 
 
 

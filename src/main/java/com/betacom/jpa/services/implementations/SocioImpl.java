@@ -46,23 +46,43 @@ public class SocioImpl implements ISocioServices{
 		
 	}
 
+	@Override
+	public void delete(SocioReq req) throws AcademyException {
+		log.debug("delete :" + req);
+		Optional<Socio> s = socioR.findById(req.getId());
+		
+		if (s.isEmpty())
+			throw new AcademyException("Socio non trovatoin database");
+		
+		socioR.delete(s.get());
+	}
+
 
 	@Override
 	public List<SocioDTO> listAll() {
+		
+	
+		
 		List<Socio> lS = socioR.findAll();
 		return lS.stream()
-				.map(s -> new SocioDTO(s.getId(),
-						s.getCognome(), 
-						s.getNome(), 
-						s.getCodiceFiscale(), 
-						s.getEmail(),
-						new CertificatoDTO(s.getCertificato().getId(), 
-								s.getCertificato().getTipo(), 
-								s.getCertificato().getDataCertificato())))
+				.map(s -> SocioDTO.builder()
+						.codiceFiscale(s.getCodiceFiscale())
+						.id(s.getId())
+						.cognome(s.getCognome())
+						.nome(s.getNome())
+						.email(s.getEmail())
+						.certificato((s.getCertificato() == null) ? null : CertificatoDTO.builder()
+								.id(s.getCertificato().getId())
+								.tipo(s.getCertificato().getTipo())
+								.dataCertificato(s.getCertificato().getDataCertificato())
+								.build()
+								)
+						.build())
 				.collect(Collectors.toList());
+
 	}
 
 
 
-
+	
 }

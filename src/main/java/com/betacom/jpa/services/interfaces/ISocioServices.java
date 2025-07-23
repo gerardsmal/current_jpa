@@ -9,6 +9,8 @@ import com.betacom.jpa.requests.SocioReq;
 public interface ISocioServices {
 
 	Integer insert(SocioReq req) throws AcademyException;
+	void delete(SocioReq req) throws AcademyException;
+	
 	
 	List<SocioDTO> listAll();
 }
