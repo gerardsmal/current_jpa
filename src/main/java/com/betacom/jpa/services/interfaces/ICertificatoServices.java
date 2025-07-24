@@ -9,7 +9,7 @@ import com.betacom.jpa.requests.CertificatoReq;
 public interface ICertificatoServices {
 
 	int create(CertificatoReq req) throws AcademyException;
-	void delete(CertificatoReq req) throws AcademyException;
+	void update(CertificatoReq req) throws AcademyException;
 	
 	List<SocioDTO> listAll();
 }

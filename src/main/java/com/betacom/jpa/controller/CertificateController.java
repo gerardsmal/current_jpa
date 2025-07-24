@@ -2,6 +2,7 @@ package com.betacom.jpa.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,4 +50,18 @@ public class CertificateController {
 		}
 		return r;
 	}
+	
+	@PutMapping("update")
+	public ResponseBase update(@RequestBody (required = true)  CertificatoReq req) {
+		ResponseBase r = new ResponseBase();
+		try {
+			certifS.update(req);
+			r.setRc(true);
+		} catch (Exception e) {
+			r.setRc(false);
+			r.setMsg(e.getMessage());
+		}
+		return r;
+	}
+
 }

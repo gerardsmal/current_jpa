@@ -50,18 +50,25 @@ public class CertificatoImpl implements ICertificatoServices{
 		
 	}
 
+
 	@Override
-	public void delete(CertificatoReq req) throws AcademyException {
-		log.debug("Detete :" + req);
+	public void update(CertificatoReq req) throws AcademyException {
+		log.debug("update :" + req);
 		Optional<Certificato> c = certR.findById(req.getId());
 		if (c.isEmpty())
 			throw new AcademyException("Certificato non trovato :" + req.getId());
-		
-		certR.delete(c.get());
-		
+
+		Certificato certif = c.get();
+		if (req.getTipo() != null) {
+			certif.setTipo(req.getTipo());
+		}
+		if (req.getDataCertificato() != null) {
+			certif.setDataCertificato(req.getDataCertificato());
+		}
+		certR.save(certif);
 	}
 
-
+	
 	@Override
 	public List<SocioDTO> listAll() {
 		List<Certificato> lC = certR.findAll();
@@ -81,6 +88,10 @@ public class CertificatoImpl implements ICertificatoServices{
 						.build())
 				.collect(Collectors.toList());
 	}
+
+
+
+
 
 
 
