@@ -11,20 +11,20 @@ import com.betacom.jpa.process.MainProcess;
 @SpringBootApplication
 public class ProjectJpaApplication {
 
-	@Autowired
-	private MainProcess mP;
+//	@Autowired
+//	private MainProcess mP;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectJpaApplication.class, args);
 	}
 
 	
-	@Bean
-	CommandLineRunner commandLineRunner() {
-		
-		return args ->{
-			mP.Execute();
-		};
-		
-	}
+//	@Bean
+//	CommandLineRunner commandLineRunner() {
+//		
+//		return args ->{
+//			mP.Execute();
+//		};
+//		
+//	}
 }

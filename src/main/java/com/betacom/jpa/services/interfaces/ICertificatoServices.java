@@ -11,5 +11,5 @@ public interface ICertificatoServices {
 	int create(CertificatoReq req) throws AcademyException;
 	void delete(CertificatoReq req) throws AcademyException;
 	
-	List<SocioDTO> lisAll();
+	List<SocioDTO> listAll();
 }

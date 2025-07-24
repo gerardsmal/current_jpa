@@ -63,7 +63,7 @@ public class CertificatoImpl implements ICertificatoServices{
 
 
 	@Override
-	public List<SocioDTO> lisAll() {
+	public List<SocioDTO> listAll() {
 		List<Certificato> lC = certR.findAll();
 		return lC.stream()
 				.map(c -> SocioDTO.builder()

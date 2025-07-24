@@ -11,6 +11,8 @@ public interface ISocioServices {
 	Integer insert(SocioReq req) throws AcademyException;
 	void delete(SocioReq req) throws AcademyException;
 	
+	void update(SocioReq req) throws AcademyException;
+	
 	
 	List<SocioDTO> listAll();
 }

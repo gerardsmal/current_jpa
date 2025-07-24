@@ -32,12 +32,15 @@ public class SocioImpl implements ISocioServices{
 		log.debug("insert :" + req);
 		Socio soc = new Socio();
 		Optional<Socio> s = socioR.findByCodiceFiscale(req.getCodiceFiscale());
-		
 		if (s.isPresent())
 			throw new AcademyException("Socio esistente in database");
-		
-		
 		soc.setCodiceFiscale(req.getCodiceFiscale());
+
+		if (req.getCognome() == null)
+			throw new AcademyException("Cognome obbligatorio");
+		if (req.getNome() == null)
+			throw new AcademyException("Nome obbligatorio");
+		
 		soc.setCognome(req.getCognome());
 		soc.setEmail(req.getEmail());
 		soc.setNome(req.getNome());
@@ -52,11 +55,39 @@ public class SocioImpl implements ISocioServices{
 		Optional<Socio> s = socioR.findById(req.getId());
 		
 		if (s.isEmpty())
-			throw new AcademyException("Socio non trovatoin database");
+			throw new AcademyException("Socio non trovato in database :" + req.getId());
 		
 		socioR.delete(s.get());
 	}
 
+	@Override
+	public void update(SocioReq req) throws AcademyException {
+		log.debug("Update :" + req);
+		Optional<Socio> s = socioR.findById(req.getId());
+		
+		if (s.isEmpty())
+			throw new AcademyException("Socio non trovatoin database :" + req.getId());
+		Socio soc = s.get();
+		if (req.getNome() != null) {
+			soc.setNome(req.getNome());
+		}
+		if (req.getCognome() != null) {
+			soc.setCognome(req.getCognome());
+		}
+		if (req.getEmail() != null) {
+			soc.setEmail(req.getEmail());
+		}
+		
+		if (req.getCodiceFiscale() != null) {
+			Optional<Socio> sCF = socioR.findByCodiceFiscale(req.getCodiceFiscale());			
+			if (sCF.isPresent())
+				throw new AcademyException("Codice fiscale presente in database");
+			soc.setCodiceFiscale(req.getCodiceFiscale());
+		}
+		
+		socioR.save(soc);  // update socio
+		
+	}
 
 	@Override
 	public List<SocioDTO> listAll() {
@@ -81,6 +112,7 @@ public class SocioImpl implements ISocioServices{
 				.collect(Collectors.toList());
 
 	}
+
 
 
 
