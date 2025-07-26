@@ -13,6 +13,7 @@ public interface ISocioServices {
 	
 	void update(SocioReq req) throws AcademyException;
 	
+	SocioDTO getSocio(Integer id) throws AcademyException;
 	
 	List<SocioDTO> listAll();
 }

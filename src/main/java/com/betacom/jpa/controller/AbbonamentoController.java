@@ -1,12 +1,17 @@
 package com.betacom.jpa.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.betacom.jpa.dto.AbbonamentoDTO;
 import com.betacom.jpa.requests.AbbonamentoReq;
 import com.betacom.jpa.response.ResponseBase;
+import com.betacom.jpa.response.ResponseObject;
 import com.betacom.jpa.services.interfaces.IAbbonamentoServices;
 
 @RestController
@@ -19,7 +24,7 @@ public class AbbonamentoController {
 		this.abboS = abboS;
 	}
 
-	@PostMapping("create")
+	@PostMapping("/create")
 	public ResponseBase create(@RequestBody (required = true)  AbbonamentoReq req) {
 		ResponseBase r = new ResponseBase();
 		try {
@@ -32,6 +37,31 @@ public class AbbonamentoController {
 		return r;
 	}
 
+	@DeleteMapping("/delete")
+	public ResponseBase delete(@RequestBody (required = true)  AbbonamentoReq req) {
+		ResponseBase r = new ResponseBase();
+		try {
+			abboS.remove(req);
+			r.setRc(true);
+		} catch (Exception e) {
+			r.setRc(false);
+			r.setMsg(e.getMessage());
+		}
+		return r;
+	}
 
+	
+	@GetMapping("/getAbbonamento")
+	public ResponseObject<AbbonamentoDTO> getAbbonamento(@RequestParam (required = true) Integer id){
+		ResponseObject<AbbonamentoDTO> r = new ResponseObject<AbbonamentoDTO>();
+		try {
+			r.setDati(abboS.getById(id));
+			r.setRc(true);
+		} catch (Exception e) {
+			r.setRc(false);
+			r.setMsg(e.getMessage());
+		}
+		return r;
+	}
 	
 }

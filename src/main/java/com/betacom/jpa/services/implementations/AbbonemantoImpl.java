@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.betacom.jpa.dto.AbbonamentoDTO;
 import com.betacom.jpa.exception.AcademyException;
 import com.betacom.jpa.models.Abbonamento;
 import com.betacom.jpa.models.Socio;
@@ -11,12 +12,13 @@ import com.betacom.jpa.repositories.IAbbonamentoRepository;
 import com.betacom.jpa.repositories.ISocioRepository;
 import com.betacom.jpa.requests.AbbonamentoReq;
 import com.betacom.jpa.services.interfaces.IAbbonamentoServices;
+import com.betacom.jpa.utils.Utilities;
 
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Service
-public class AbbonemantoImpl implements IAbbonamentoServices{
+public class AbbonemantoImpl extends Utilities  implements IAbbonamentoServices{
 
 	private IAbbonamentoRepository abboR;
 	private ISocioRepository socioR;
@@ -40,6 +42,34 @@ public class AbbonemantoImpl implements IAbbonamentoServices{
 		abbo.setSocio(s.get());
 		
 		abboR.save(abbo);
+	}
+
+	@Override
+	public AbbonamentoDTO getById(Integer id) throws AcademyException {
+		Optional<Abbonamento> ab = abboR.findById(id);
+		if (ab.isEmpty())
+			throw new AcademyException("Abbonamento non presente id database:" + id);
+		
+		Abbonamento a = ab.get();
+		
+		return AbbonamentoDTO.builder()
+				.id(a.getId())
+				.dataIscrizione(a.getDataIscrizione())
+				.attivita(buildAttivita(a.getAttivita()))
+				.build();
+	}
+
+	@Override
+	public void remove(AbbonamentoReq req) throws AcademyException {
+		Optional<Abbonamento> ab = abboR.findById(req.getId());
+		if (ab.isEmpty())
+			throw new AcademyException("Abbonamento non presente id database:" + req.getId());
+
+		if (!ab.get().getAttivita().isEmpty()) {
+			ab.get().getAttivita().removeAll(ab.get().getAttivita());
+			abboR.save(ab.get());
+		}
+		abboR.delete(ab.get());
 	}
 
 

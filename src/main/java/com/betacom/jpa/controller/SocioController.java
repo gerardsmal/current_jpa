@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.jpa.dto.SocioDTO;
 import com.betacom.jpa.requests.SocioReq;
 import com.betacom.jpa.response.ResponseBase;
 import com.betacom.jpa.response.ResponseList;
+import com.betacom.jpa.response.ResponseObject;
 import com.betacom.jpa.services.interfaces.ISocioServices;
 
 
@@ -34,6 +36,19 @@ public class SocioController {
 		ResponseList<SocioDTO> r = new ResponseList<SocioDTO>();
 		try {
 			r.setDati(socioS.listAll());
+			r.setRc(true);
+		} catch (Exception e) {
+			r.setRc(false);
+			r.setMsg(e.getMessage());
+		}
+		return r;
+	}
+
+	@GetMapping("/getSocio")
+	public ResponseObject<SocioDTO> getSocio(@RequestParam(required = true) Integer id) {
+		ResponseObject<SocioDTO> r = new ResponseObject<SocioDTO>();
+		try {
+			r.setDati(socioS.getSocio(id));
 			r.setRc(true);
 		} catch (Exception e) {
 			r.setRc(false);

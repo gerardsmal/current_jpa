@@ -1,6 +1,7 @@
 package com.betacom.jpa.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -16,5 +17,5 @@ public class AbbonamentoDTO {
 
 	private Integer id;
 	private LocalDate dataIscrizione;
-
+	private List<AttivitaDTO> attivita;
 }
