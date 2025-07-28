@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.jpa.dto.AttivitaDTO;
@@ -30,6 +31,7 @@ public class AttivitaImpl implements IAttivitaServices{
 		this.abboR = abboR;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void create(AttivitaReq req) throws AcademyException {
 		log.debug("create :" + req);
@@ -46,7 +48,8 @@ public class AttivitaImpl implements IAttivitaServices{
 		
 		attivR.save(at);
 	}
-
+	
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void update(AttivitaReq req) throws AcademyException {
 		log.debug("update :" + req);
@@ -65,6 +68,7 @@ public class AttivitaImpl implements IAttivitaServices{
 		attivR.save(at.get());
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void delete(AttivitaReq req) throws AcademyException {
 		log.debug("delete :" + req);
@@ -73,9 +77,12 @@ public class AttivitaImpl implements IAttivitaServices{
 		if (at.isEmpty())
 			throw new AcademyException("Attivia non presente in database :" + req.getId());
 
+		if (!at.get().getAbbonamento().isEmpty())
+			throw new AcademyException("Ci sono abbonamenti collegati a questa attività :" + req.getId());
+
 		attivR.delete(at.get());
 	}
-
+	
 	@Override
 	public List<AttivitaDTO> list() {
 		log.debug("List");
@@ -106,6 +113,7 @@ public class AttivitaImpl implements IAttivitaServices{
 		abboR.save(abb.get());
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void removeAttivitaAbbonamento(AttivitaReq req) throws AcademyException {
 		Optional<Abbonamento> abb = abboR.findById(req.getAbbonamentiId());  // control abbonamento

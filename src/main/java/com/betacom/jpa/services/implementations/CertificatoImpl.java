@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.jpa.dto.CertificatoDTO;
 import com.betacom.jpa.dto.SocioDTO;
@@ -32,7 +33,7 @@ public class CertificatoImpl implements ICertificatoServices{
 		this.socioR = socioR;
 	}
 
-	
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int create(CertificatoReq req) throws AcademyException {
 		log.debug("create :" + req);
@@ -50,7 +51,7 @@ public class CertificatoImpl implements ICertificatoServices{
 		
 	}
 
-
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void update(CertificatoReq req) throws AcademyException {
 		log.debug("update :" + req);

@@ -32,7 +32,24 @@ public class SocioController {
 
 	
 	@GetMapping("/list")
-	public ResponseList<SocioDTO> list() {
+	public ResponseList<SocioDTO> list(
+			@RequestParam (required = false) Integer id, 
+			@RequestParam (required = false) String nome,
+			@RequestParam (required = false) String cognome, 
+			@RequestParam (required = false) String attivita) {
+		ResponseList<SocioDTO> r = new ResponseList<SocioDTO>();
+		try {
+			r.setDati(socioS.list(id, nome, cognome, attivita));
+			r.setRc(true);
+		} catch (Exception e) {
+			r.setRc(false);
+			r.setMsg(e.getMessage());
+		}
+		return r;
+	}
+	
+	@GetMapping("/listAll")
+	public ResponseList<SocioDTO> listAll() {
 		ResponseList<SocioDTO> r = new ResponseList<SocioDTO>();
 		try {
 			r.setDati(socioS.listAll());
@@ -44,6 +61,20 @@ public class SocioController {
 		return r;
 	}
 
+	@GetMapping("/listByAttitiva")
+	public ResponseList<SocioDTO> listByAttitiva(@RequestParam (required = true) String attivita) {
+		ResponseList<SocioDTO> r = new ResponseList<SocioDTO>();
+		try {
+			r.setDati(socioS.listByAttivita(attivita));
+			r.setRc(true);
+		} catch (Exception e) {
+			r.setRc(false);
+			r.setMsg(e.getMessage());
+		}
+		return r;
+	}
+
+	
 	@GetMapping("/getSocio")
 	public ResponseObject<SocioDTO> getSocio(@RequestParam(required = true) Integer id) {
 		ResponseObject<SocioDTO> r = new ResponseObject<SocioDTO>();

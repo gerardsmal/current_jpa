@@ -16,4 +16,9 @@ public interface ISocioServices {
 	SocioDTO getSocio(Integer id) throws AcademyException;
 	
 	List<SocioDTO> listAll();
+
+	List<SocioDTO> listByAttivita(String attivita);
+	
+	List<SocioDTO> list(Integer id, String nome, String cognome, String attivita);
+
 }

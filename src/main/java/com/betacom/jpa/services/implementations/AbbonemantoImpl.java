@@ -3,6 +3,7 @@ package com.betacom.jpa.services.implementations;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.jpa.dto.AbbonamentoDTO;
 import com.betacom.jpa.exception.AcademyException;
@@ -27,7 +28,8 @@ public class AbbonemantoImpl extends Utilities  implements IAbbonamentoServices{
 		this.abboR = abboR;
 		this.socioR = socioR;
 	}
-
+	
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void create(AbbonamentoReq req) throws AcademyException {
 		log.debug("create :" + req);
@@ -43,7 +45,7 @@ public class AbbonemantoImpl extends Utilities  implements IAbbonamentoServices{
 		
 		abboR.save(abbo);
 	}
-
+	
 	@Override
 	public AbbonamentoDTO getById(Integer id) throws AcademyException {
 		Optional<Abbonamento> ab = abboR.findById(id);
@@ -58,17 +60,19 @@ public class AbbonemantoImpl extends Utilities  implements IAbbonamentoServices{
 				.attivita(buildAttivita(a.getAttivita()))
 				.build();
 	}
-
+	
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void remove(AbbonamentoReq req) throws AcademyException {
 		Optional<Abbonamento> ab = abboR.findById(req.getId());
 		if (ab.isEmpty())
 			throw new AcademyException("Abbonamento non presente id database:" + req.getId());
-
+				
 		if (!ab.get().getAttivita().isEmpty()) {
 			ab.get().getAttivita().removeAll(ab.get().getAttivita());
 			abboR.save(ab.get());
 		}
+
 		abboR.delete(ab.get());
 	}
 
