@@ -14,6 +14,7 @@ import com.betacom.jpa.models.Socio;
 public interface ISocioRepository extends JpaRepository<Socio, Integer>{
 	
 	Optional<Socio> findByCodiceFiscale(String codiceFiscale);
+	
 	List<Socio> findByCognomeAndNome(String cognome, String nome);
 	
 	@Query(name="socio.selectByAttivita")

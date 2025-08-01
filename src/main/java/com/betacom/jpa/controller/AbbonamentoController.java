@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.jpa.dto.AbbonamentoDTO;
+import com.betacom.jpa.dto.RicevutaDTO;
 import com.betacom.jpa.requests.AbbonamentoReq;
 import com.betacom.jpa.response.ResponseBase;
+import com.betacom.jpa.response.ResponseList;
 import com.betacom.jpa.response.ResponseObject;
 import com.betacom.jpa.services.interfaces.IAbbonamentoServices;
 
@@ -56,6 +58,32 @@ public class AbbonamentoController {
 		ResponseObject<AbbonamentoDTO> r = new ResponseObject<AbbonamentoDTO>();
 		try {
 			r.setDati(abboS.getById(id));
+			r.setRc(true);
+		} catch (Exception e) {
+			r.setRc(false);
+			r.setMsg(e.getMessage());
+		}
+		return r;
+	}
+	
+	@GetMapping("/getRicevuta")
+	public ResponseObject<RicevutaDTO> getRicevuta(@RequestParam (required = true) Integer id){
+		ResponseObject<RicevutaDTO> r = new ResponseObject<RicevutaDTO>();
+		try {
+			r.setDati(abboS.buildRicevuta(id));
+			r.setRc(true);
+		} catch (Exception e) {
+			r.setRc(false);
+			r.setMsg(e.getMessage());
+		}
+		return r;
+	}
+	
+	@GetMapping("/getAbbonamentoBySocio")
+	public ResponseList<AbbonamentoDTO> getAbbonamentoBySocio(@RequestParam (required = true) Integer id){
+		ResponseList<AbbonamentoDTO> r = new ResponseList<AbbonamentoDTO>();
+		try {
+			r.setDati(abboS.getAbbonamentiBySocio(id));
 			r.setRc(true);
 		} catch (Exception e) {
 			r.setRc(false);

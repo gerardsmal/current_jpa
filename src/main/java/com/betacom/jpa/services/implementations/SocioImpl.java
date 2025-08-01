@@ -75,7 +75,7 @@ public class SocioImpl  extends Utilities implements ISocioServices {
 		if (s.isEmpty())
 			throw new AcademyException("Socio non trovatoin database :" + req.getId());
 		Socio soc = s.get();
-		if (req.getNome() != null) {
+		if ((req.getNome() != null)) {
 			soc.setNome(req.getNome());
 		}
 		if (req.getCognome() != null) {
@@ -85,7 +85,8 @@ public class SocioImpl  extends Utilities implements ISocioServices {
 			soc.setEmail(req.getEmail());
 		}
 		
-		if (req.getCodiceFiscale() != null) {
+		if ((req.getCodiceFiscale() != null) && (!req.getCodiceFiscale().equalsIgnoreCase(soc.getCodiceFiscale()))) {
+			log.debug("update codice fiscale");
 			Optional<Socio> sCF = socioR.findByCodiceFiscale(req.getCodiceFiscale());			
 			if (sCF.isPresent())
 				throw new AcademyException("Codice fiscale presente in database");

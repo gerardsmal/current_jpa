@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ResponseBase {
 
-	private boolean rc;
+	private Boolean rc;
 	private String msg;
 }

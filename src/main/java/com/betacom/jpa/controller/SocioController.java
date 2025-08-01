@@ -18,8 +18,10 @@ import com.betacom.jpa.response.ResponseList;
 import com.betacom.jpa.response.ResponseObject;
 import com.betacom.jpa.services.interfaces.ISocioServices;
 
+import lombok.extern.log4j.Log4j2;
 
 
+@Log4j2
 @RestController
 @RequestMapping("/rest/socio")
 public class SocioController {
@@ -38,6 +40,12 @@ public class SocioController {
 			@RequestParam (required = false) String cognome, 
 			@RequestParam (required = false) String attivita) {
 		ResponseList<SocioDTO> r = new ResponseList<SocioDTO>();
+	
+		if (nome == null || nome.isBlank()) nome = null;
+		if (cognome == null || cognome.isBlank()) cognome = null;
+		if (attivita == null || attivita.isBlank()) attivita = null;
+		
+		
 		try {
 			r.setDati(socioS.list(id, nome, cognome, attivita));
 			r.setRc(true);
