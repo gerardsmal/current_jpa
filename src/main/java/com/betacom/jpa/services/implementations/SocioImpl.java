@@ -111,7 +111,7 @@ public class SocioImpl  extends Utilities implements ISocioServices {
 		Optional<Socio> soc = socioR.findById(id);
 		
 		if (soc.isEmpty())
-			throw new AcademyException("Socio non trovato in database :" + id);
+			throw new AcademyException(msgS.getMessaggio("socio-not-exist"));
 		Socio s = soc.get();
 	
 		return SocioDTO.builder()

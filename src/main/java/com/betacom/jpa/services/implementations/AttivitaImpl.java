@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.jpa.dto.AttivitaDTO;
@@ -112,7 +111,7 @@ public class AttivitaImpl implements IAttivitaServices{
 		abb.get().getAttivita().add(att.get());
 		abboR.save(abb.get());
 	}
-
+ 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void removeAttivitaAbbonamento(AttivitaReq req) throws AcademyException {
