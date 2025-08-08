@@ -56,10 +56,12 @@ public class AttivitaImpl implements IAttivitaServices{
 		if (at.isEmpty())
 			throw new AcademyException("Attivia non presente in database :" + req.getId());
 		if (req.getDescrizione() != null) {
-			Optional<Attivita> a = attivR.findByDescrizione(req.getDescrizione().trim().toUpperCase());
-			if (a.isPresent())
-				throw new AcademyException("Attività già presente in database :" + req.getDescrizione());
-			at.get().setDescrizione(req.getDescrizione().trim().toUpperCase());			
+			if (!req.getDescrizione().trim().toUpperCase().equals(at.get().getDescrizione())) {
+				Optional<Attivita> a = attivR.findByDescrizione(req.getDescrizione().trim().toUpperCase());
+				if (a.isPresent())
+					throw new AcademyException("Attività già presente in database :" + req.getDescrizione());
+				at.get().setDescrizione(req.getDescrizione().trim().toUpperCase());			
+			}
 		}
 		if (req.getPrezzo() != null)
 			at.get().setPrezzo(req.getPrezzo());

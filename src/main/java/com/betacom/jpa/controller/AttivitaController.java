@@ -52,7 +52,7 @@ public class AttivitaController {
 		return r;
 	}
 
-	@DeleteMapping("delete")
+	@PostMapping("delete")
 	public ResponseBase delete(@RequestBody (required = true)  AttivitaReq req) {
 		ResponseBase r = new ResponseBase();
 		try {

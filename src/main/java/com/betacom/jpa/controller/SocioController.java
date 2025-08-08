@@ -109,7 +109,7 @@ public class SocioController {
 		return r;
 	}
 
-	@DeleteMapping("delete")
+	@PostMapping("delete")
 	public ResponseBase delete(@RequestBody (required = true)  SocioReq req) {
 		ResponseBase r = new ResponseBase();
 		try {

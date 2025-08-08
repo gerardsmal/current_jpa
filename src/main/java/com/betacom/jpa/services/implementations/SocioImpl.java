@@ -61,7 +61,11 @@ public class SocioImpl  extends Utilities implements ISocioServices {
 		Optional<Socio> s = socioR.findById(req.getId());
 		
 		if (s.isEmpty())
-			throw new AcademyException("Socio non trovato in database :" + req.getId());
+			throw new AcademyException(msgS.getMessaggio("socio-not-exist"));
+		
+		if (!s.get().getAbbonamento().isEmpty())
+			throw new AcademyException(msgS.getMessaggio("socio-with-abb"));
+		
 		
 		socioR.delete(s.get());
 	}
@@ -73,7 +77,7 @@ public class SocioImpl  extends Utilities implements ISocioServices {
 		Optional<Socio> s = socioR.findById(req.getId());
 		
 		if (s.isEmpty())
-			throw new AcademyException("Socio non trovatoin database :" + req.getId());
+			throw new AcademyException(msgS.getMessaggio("socio-not-exist"));
 		Socio soc = s.get();
 		if ((req.getNome() != null)) {
 			soc.setNome(req.getNome());

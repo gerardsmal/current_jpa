@@ -39,7 +39,7 @@ public class AbbonamentoController {
 		return r;
 	}
 
-	@DeleteMapping("/delete")
+	@PostMapping("/delete")
 	public ResponseBase delete(@RequestBody (required = true)  AbbonamentoReq req) {
 		ResponseBase r = new ResponseBase();
 		try {
