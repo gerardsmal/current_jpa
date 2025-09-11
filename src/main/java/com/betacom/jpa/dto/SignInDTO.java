@@ -2,19 +2,16 @@ package com.betacom.jpa.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-@Builder
 @Getter
 @Setter
-public class PersoneDTO {
+@NoArgsConstructor
+public class SignInDTO {
 	private Integer id;
-	
-	private String nome;
-	private String cognome;
-	private String email;
-	private String colore;
-	private Boolean isOnline;
+	private Boolean logged;
+	private String  role;
 }

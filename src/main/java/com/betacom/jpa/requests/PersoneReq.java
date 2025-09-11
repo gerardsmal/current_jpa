@@ -10,4 +10,5 @@ public class PersoneReq {
 	private String cognome;
 	private String email;
 	private String colore;
+	private Boolean isOnline;
 }

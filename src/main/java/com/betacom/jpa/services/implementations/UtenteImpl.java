@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.betacom.jpa.dto.SignInDTO;
 import com.betacom.jpa.dto.UtenteDTO;
 import com.betacom.jpa.exception.AcademyException;
 import com.betacom.jpa.models.Utente;
 import com.betacom.jpa.repositories.IUtenteRepository;
+import com.betacom.jpa.requests.SignInReq;
 import com.betacom.jpa.requests.UtenteReq;
 import com.betacom.jpa.services.interfaces.IUtenteServices;
 import com.betacom.jpa.utils.Roles;
@@ -105,6 +107,23 @@ public class UtenteImpl implements IUtenteServices{
 				.email(u.get().getEmail())
 				.role(u.get().getRole().toString())
 				.build();
+	}
+
+
+	@Override
+	public SignInDTO signIn(SignInReq req) {
+		log.debug("signIn:" + req);
+		SignInDTO r = new SignInDTO();
+		Optional<Utente> u = utenR.findByUserNameAndPwd(req.getUser(), req.getPwd());
+		if (u.isEmpty()) {
+			r.setLogged(false);
+		} else {
+			r.setId(u.get().getId());
+			r.setLogged(true);
+			r.setRole(u.get().getRole().toString());
+		}
+		
+		return r;
 	}
 
 

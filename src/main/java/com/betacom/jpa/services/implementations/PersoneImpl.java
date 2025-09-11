@@ -32,6 +32,7 @@ public class PersoneImpl implements IPersoneServices{
 		p.setNome(req.getNome());
 		p.setColore(req.getColore());
 		p.setEmail(req.getEmail());
+		p.setIsOnline(req.getIsOnline());
 		
 		perR.save(p);
 	}
@@ -55,6 +56,9 @@ public class PersoneImpl implements IPersoneServices{
 		
 		if (req.getEmail() != null)
 			p.setEmail(req.getEmail());
+		
+		if (req.getIsOnline() != null)
+			p.setIsOnline(req.getIsOnline());
 		
 		perR.save(p);
 	
@@ -83,6 +87,7 @@ public class PersoneImpl implements IPersoneServices{
 						.cognome(p.getCognome())
 						.colore(p.getColore())
 						.email(p.getEmail())
+						.isOnline(p.getIsOnline())
 						.build())
 				.toList();
 	}
@@ -101,6 +106,7 @@ public class PersoneImpl implements IPersoneServices{
 				.cognome(p.getCognome())
 				.colore(p.getColore())
 				.email(p.getEmail())
+				.isOnline(p.getIsOnline())
 				.build();
 	}
 

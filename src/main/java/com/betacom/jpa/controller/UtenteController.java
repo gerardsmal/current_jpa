@@ -2,6 +2,7 @@ package com.betacom.jpa.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.betacom.jpa.dto.SignInDTO;
 import com.betacom.jpa.dto.UtenteDTO;
 import com.betacom.jpa.exception.AcademyException;
+import com.betacom.jpa.requests.SignInReq;
 import com.betacom.jpa.requests.UtenteReq;
 import com.betacom.jpa.response.ResponseBase;
 import com.betacom.jpa.response.ResponseList;
@@ -19,6 +22,7 @@ import com.betacom.jpa.services.interfaces.IUtenteServices;
 
 import lombok.extern.slf4j.Slf4j;
 
+@CrossOrigin("*")
 @Slf4j
 @RestController
 @RequestMapping("/rest/utente")
@@ -31,6 +35,12 @@ public class UtenteController {
 		this.utS = utS;
 	}
 
+	@PostMapping("/signin")
+	public SignInDTO signin(@RequestBody (required = true) SignInReq req) {
+		return utS.signIn(req);
+	}
+	
+	
 	@PostMapping("/create")
 	public ResponseBase create(@RequestBody (required = true) UtenteReq req) {
 		log.debug("create :" + req);

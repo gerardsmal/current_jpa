@@ -21,5 +21,6 @@ public class Persone {
 	private String cognome;
 	private String email;
 	private String colore;
+	private Boolean isOnline;
 
 }

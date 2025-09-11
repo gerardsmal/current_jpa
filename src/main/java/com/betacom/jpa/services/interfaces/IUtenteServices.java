@@ -2,8 +2,10 @@ package com.betacom.jpa.services.interfaces;
 
 import java.util.List;
 
+import com.betacom.jpa.dto.SignInDTO;
 import com.betacom.jpa.dto.UtenteDTO;
 import com.betacom.jpa.exception.AcademyException;
+import com.betacom.jpa.requests.SignInReq;
 import com.betacom.jpa.requests.UtenteReq;
 
 public interface IUtenteServices {
@@ -15,4 +17,6 @@ public interface IUtenteServices {
 	List<UtenteDTO> listAll();
 	
 	UtenteDTO findById(Integer id) throws AcademyException;
+	
+	SignInDTO signIn(SignInReq req);
 }
