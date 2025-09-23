@@ -1,6 +1,6 @@
 package com.betacom.jpa.controller;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.jpa.dto.AttivitaDTO;
-import com.betacom.jpa.dto.SocioDTO;
-import com.betacom.jpa.requests.AbbonamentoReq;
 import com.betacom.jpa.requests.AttivitaReq;
 import com.betacom.jpa.response.ResponseBase;
 import com.betacom.jpa.response.ResponseList;
 import com.betacom.jpa.services.interfaces.IAttivitaServices;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/rest/attivita")
 public class AttivitaController {
@@ -105,4 +104,31 @@ public class AttivitaController {
 		return r;
 	}
 
+	@GetMapping("/listByAbbonamento")
+	public ResponseList<AttivitaDTO> listByAbbonamento(Integer id){
+		ResponseList<AttivitaDTO> r = new ResponseList<AttivitaDTO>();
+		r.setRc(true);
+		try {
+			r.setDati(attivS.listByAbbonamento(id));
+		} catch (Exception e) {
+			r.setRc(false);
+			r.setMsg(r.getMsg());
+		}
+		
+		return r;
+	}
+
+	@GetMapping("/listAttivitaNonAbbonamento")
+	public ResponseList<AttivitaDTO> listAttivitaNonAbbonamento(Integer id){
+		ResponseList<AttivitaDTO> r = new ResponseList<AttivitaDTO>();
+		r.setRc(true);
+		try {
+			r.setDati(attivS.listAttiviaNonAbbonamento(id));
+		} catch (Exception e) {
+			r.setRc(false);
+			r.setMsg(r.getMsg());
+		}
+		
+		return r;
+	}
 }

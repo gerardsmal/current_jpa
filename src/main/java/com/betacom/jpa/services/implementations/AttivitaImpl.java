@@ -1,5 +1,6 @@
 package com.betacom.jpa.services.implementations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -135,5 +136,48 @@ public class AttivitaImpl implements IAttivitaServices{
 		
 	}
 
+	@Override
+	public List<AttivitaDTO> listByAbbonamento(Integer id) throws AcademyException {
+		Optional<Abbonamento> lA = abboR.findById(id);
+		if (lA.isEmpty())
+			throw new AcademyException("Abbonamento non trovato");
+		
+		return lA.get().getAttivita().stream()
+				.map(a -> AttivitaDTO.builder()
+						.id(a.getId())
+						.descrizione(a.getDescrizione())
+						.prezzo(a.getPrezzo())
+						.build()
+						)
+				.collect(Collectors.toList());
+	}
 
+	@Override
+	public List<AttivitaDTO> listAttiviaNonAbbonamento(Integer id) throws AcademyException {
+		Optional<Abbonamento> abb = abboR.findById(id);
+		if (abb.isEmpty())
+			throw new AcademyException("Abbonamento non trovato");
+
+		List<Attivita> attiv = attivR.findAll();
+		List<Attivita> result = new ArrayList<Attivita>();
+		
+		for (Attivita a:attiv) {
+			if (!existAttivita(abb.get().getAttivita(), a.getDescrizione()))
+				result.add(a);
+		}
+		return result.stream()
+				.map(a -> AttivitaDTO.builder()
+						.id(a.getId())
+						.descrizione(a.getDescrizione())
+						.prezzo(a.getPrezzo())
+						.build()
+						)
+				.collect(Collectors.toList());
+	}
+
+	private boolean existAttivita (List<Attivita> att, String search) {
+		return att.stream()
+				.map(Attivita :: getDescrizione)
+				.anyMatch(descrizione -> descrizione.equalsIgnoreCase(search) );
+	}
 }

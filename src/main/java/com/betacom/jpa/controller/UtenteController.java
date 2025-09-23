@@ -14,6 +14,7 @@ import com.betacom.jpa.dto.SignInDTO;
 import com.betacom.jpa.dto.UtenteDTO;
 import com.betacom.jpa.exception.AcademyException;
 import com.betacom.jpa.requests.SignInReq;
+import com.betacom.jpa.requests.UtentePwdReq;
 import com.betacom.jpa.requests.UtenteReq;
 import com.betacom.jpa.response.ResponseBase;
 import com.betacom.jpa.response.ResponseList;
@@ -69,6 +70,21 @@ public class UtenteController {
 		return r;
 	}
 
+	@PutMapping("/updatePwd")
+	public ResponseBase updatePwd(@RequestBody (required = true) UtentePwdReq req) {
+		log.debug("update :" + req);
+		ResponseBase r = new ResponseBase();
+		r.setRc(true);
+		try {
+			utS.updatePwd(req);
+		} catch (AcademyException e) {
+			r.setMsg(e.getMessage());
+			r.setRc(false);
+		}
+		return r;
+	}
+
+	
 	@PostMapping("/remove")
 	public ResponseBase remove(@RequestBody (required = true) UtenteReq req) {
 		log.debug("remove :" + req);

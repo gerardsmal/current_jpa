@@ -14,6 +14,10 @@ public interface IAttivitaServices {
 	
 	void createAttivitaAbbonamento(AttivitaReq req) throws AcademyException;
 	void removeAttivitaAbbonamento(AttivitaReq req) throws AcademyException;
+	
 	List<AttivitaDTO> list();
 	
+	List<AttivitaDTO> listByAbbonamento(Integer id) throws AcademyException;
+	List<AttivitaDTO> listAttiviaNonAbbonamento(Integer id) throws AcademyException;
+
 }

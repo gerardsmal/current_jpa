@@ -1,6 +1,6 @@
 package com.betacom.jpa.controller;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +16,7 @@ import com.betacom.jpa.response.ResponseList;
 import com.betacom.jpa.response.ResponseObject;
 import com.betacom.jpa.services.interfaces.IAbbonamentoServices;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/rest/abbonamento")
 public class AbbonamentoController {

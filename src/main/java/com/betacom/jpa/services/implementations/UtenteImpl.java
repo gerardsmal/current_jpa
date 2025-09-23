@@ -13,6 +13,7 @@ import com.betacom.jpa.models.Utente;
 import com.betacom.jpa.repositories.IUtenteRepository;
 import com.betacom.jpa.requests.SignInReq;
 import com.betacom.jpa.requests.UtenteReq;
+import com.betacom.jpa.requests.UtentePwdReq;
 import com.betacom.jpa.services.interfaces.IUtenteServices;
 import com.betacom.jpa.utils.Roles;
 
@@ -60,6 +61,23 @@ public class UtenteImpl implements IUtenteServices{
 		utenR.save(u.get());
 	}
 
+	@Override
+	public void updatePwd(UtentePwdReq req) throws AcademyException {
+		log.debug("updatePwd :" + req);
+		Optional<Utente> u = utenR.findById(req.getId());
+		if (u.isEmpty())
+			throw new AcademyException("Username inesistente");
+	
+		if (req.getPwdNew() == null)
+			throw new AcademyException("Nuovo pwd non iserito");
+		
+		if (!u.get().getPwd().equals(req.getPwd()))
+			throw new AcademyException("Password inserito non valido");
+			
+		u.get().setPwd(req.getPwdNew());
+
+		utenR.save(u.get());
+	}
 	@Override
 	public UtenteDTO remove(UtenteReq req) throws AcademyException {
 		log.debug("remove:" + req);

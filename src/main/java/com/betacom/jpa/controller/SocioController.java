@@ -2,6 +2,7 @@ package com.betacom.jpa.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ import com.betacom.jpa.services.interfaces.ISocioServices;
 
 import lombok.extern.log4j.Log4j2;
 
-
+@CrossOrigin("*")
 @Log4j2
 @RestController
 @RequestMapping("/rest/socio")
