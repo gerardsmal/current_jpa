@@ -1,0 +1,16 @@
+services:
+  app:
+    image: spring-jpa
+    container_name: jpa-spring
+    networks:
+      - current-jpa-network
+    ports:
+      - "9090:9090"
+    environment:
+       SPRING_DATASOURCE_URL: jdbc:postgresql://custom-jpa-network:5432/current_jpa?user=postgres&password=Cinzia1970!
+       SPRING_DATASOURCE_USERNAME: postgres
+       SPRING_DATASOURCE_PASSWORD: Cinzia1970!
+       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver          
+networks:
+  current-jpa-network:
+    external: true
